@@ -10,6 +10,10 @@ from sqlalchemy import create_engine
 
 Base = declarative_base()
 
+# -------------------------
+# MODELS
+# -------------------------
+
 class Airline(Base):
     __tablename__ = "airlines"
     id = Column(Integer, primary_key=True, index=True)
@@ -19,6 +23,7 @@ class Airline(Base):
 
     flights = relationship("Flight", back_populates="airline", cascade="all, delete-orphan")
 
+
 class Airport(Base):
     __tablename__ = "airports"
     id = Column(Integer, primary_key=True, index=True)
@@ -27,6 +32,7 @@ class Airport(Base):
     city = Column(String(64))
     country = Column(String(64))
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
+
 
 class Flight(Base):
     __tablename__ = "flights"
@@ -51,6 +57,7 @@ class Flight(Base):
     bookings = relationship("Booking", back_populates="flight", cascade="all, delete-orphan")
     fare_history = relationship("FareHistory", back_populates="flight", cascade="all, delete-orphan")
 
+
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
@@ -60,6 +67,7 @@ class User(Base):
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
 
     bookings = relationship("Booking", back_populates="user", cascade="all, delete-orphan")
+
 
 class Booking(Base):
     __tablename__ = "bookings"
@@ -78,16 +86,18 @@ class Booking(Base):
     passengers = relationship("BookingPassenger", back_populates="booking", cascade="all, delete-orphan")
     payments = relationship("Payment", back_populates="booking", cascade="all, delete-orphan")
 
+
 class BookingPassenger(Base):
     __tablename__ = "booking_passengers"
     id = Column(Integer, primary_key=True, index=True)
     booking_id = Column(Integer, ForeignKey("bookings.id"), nullable=False)
     passenger_name = Column(String(128), nullable=False)
     passenger_age = Column(Integer)
-    passenger_type = Column(String(8), default="ADT")  # ADT/CHD/INF
+    passenger_type = Column(String(8), default="ADT")
     seat_number = Column(String(16))
 
     booking = relationship("Booking", back_populates="passengers")
+
 
 class FareHistory(Base):
     __tablename__ = "fare_history"
@@ -98,6 +108,7 @@ class FareHistory(Base):
     reason = Column(Text)
 
     flight = relationship("Flight", back_populates="fare_history")
+
 
 class Payment(Base):
     __tablename__ = "payments"
@@ -112,10 +123,29 @@ class Payment(Base):
 
     booking = relationship("Booking", back_populates="payments")
 
-# Database setup
+
+# -------------------------
+# DATABASE SETUP
+# -------------------------
+
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./flights.db")
+
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
-SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
+
+SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
+
 
 def init_db():
     Base.metadata.create_all(bind=engine)
+
+
+# -------------------------
+# FASTAPI DEPENDENCY
+# -------------------------
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
