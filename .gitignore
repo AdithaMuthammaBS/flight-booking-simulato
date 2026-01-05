@@ -1,5 +1,13 @@
+# Python
 __pycache__/
 *.pyc
+
+# Virtual env
 venv/
-.env
+
+# Database
+*.db
+
+# Generated receipts
+receipt_*.pdf
 

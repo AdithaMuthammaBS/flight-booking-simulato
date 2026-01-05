@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flight Booking Simulator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>✈ Flight Booking Simulator</h1>
+
+<!-- SEARCH SECTION -->
+<div class="card">
+    <h2>Search Flights</h2>
+
+    <label for="origin">Origin</label>
+    <input type="text" id="origin" placeholder="BLR">
+
+    <label for="destination">Destination</label>
+    <input type="text" id="destination" placeholder="DEL">
+
+    <label for="date">Date</label>
+    <input type="date" id="date">
+
+    <button onclick="searchFlights()">Search Flights</button>
+</div>
+
+<!-- RESULTS SECTION -->
+<div class="card">
+    <h2>Available Flights</h2>
+
+    <table id="flightsTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Flight</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Departure</th>
+                <th>Price (₹)</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<!-- BOOKING SECTION -->
+<div class="card">
+    <h2>Create Booking</h2>
+
+    <label>Flight ID</label>
+    <input type="number" id="flightId" readonly>
+
+    <label>Passenger Name</label>
+    <input type="text" id="passengerName">
+
+    <label>Passenger Age</label>
+    <input type="number" id="passengerAge">
+
+    <button onclick="createBooking()">Book Now</button>
+
+    <p id="bookingResult"></p>
+</div>
+
+<!-- CANCEL BOOKING -->
+<div class="card">
+    <h2>Cancel Booking</h2>
+
+    <label>PNR</label>
+    <input type="text" id="cancelPnr">
+
+    <button onclick="cancelBooking()">Cancel Booking</button>
+
+    <p id="cancelResult"></p>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
+<!-- BOOKING HISTORY -->
+<div class="card">
+    <h2>Booking History</h2>
+
+    <button onclick="loadBookingHistory()">View Booking History</button>
+
+    <table id="historyTable">
+        <thead>
+            <tr>
+                <th>PNR</th>
+                <th>Flight ID</th>
+                <th>Seats</th>
+                <th>Total Price (₹)</th>
+                <th>Status</th>
+                <th>Booked On</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+<!-- DOWNLOAD RECEIPT -->
+<div class="card">
+    <h2>Download Booking Receipt</h2>
+
+    <label>PNR</label>
+    <input type="text" id="receiptPnr" placeholder="PNRXXXXXXXX">
+
+    <button onclick="downloadReceipt()">Download Receipt (JSON)</button>
+
+    <p id="receiptStatus"></p>
+</div>
+<!-- DOWNLOAD PDF RECEIPT -->
+<div class="card">
+    <h2>Download Receipt (PDF)</h2>
+
+    <label>PNR</label>
+    <input type="text" id="pdfPnr" placeholder="PNRXXXXXXXX">
+
+    <button onclick="downloadPdfReceipt()">Download PDF</button>
+
+    <p id="pdfStatus"></p>
+</div>
