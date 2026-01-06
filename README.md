@@ -58,3 +58,15 @@ Endpoints created in `main.py`:
 ### Step 2 — Start FastAPI Server
 ### Step 3 — Open the API Docs
 
+
+## 🚀 Live Deployment
+
+This project is deployed on Render.
+
+Backend Base URL:
+https://flight-booking-simulato.onrender.com
+
+API Documentation (Swagger UI):
+https://flight-booking-simulato.onrender.com/docs
+
+
